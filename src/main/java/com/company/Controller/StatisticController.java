@@ -27,7 +27,7 @@ public class StatisticController {
     @RequestMapping(value = "/{AccountId}")
     public List<VisitStatistics> getStatistic(@RequestHeader(value = "Authorization") String auth,
                                               @PathVariable String AccountId){
-        if(credentialsChecker.checkCredentials(auth.substring(6, auth.length())))
+        if(credentialsChecker.decodeAndcheckCredentials(auth.substring(6, auth.length())))
             return statisticHelper.getStatistics(AccountId);
 
         return null;

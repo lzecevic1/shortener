@@ -1,6 +1,7 @@
 package com.company.Helper;
 
 import com.company.Model.Account;
+import com.company.Model.AccountResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -51,4 +52,16 @@ public class AccountHelper {
     }
 
     public Map<String, Account> getAllAccounts() { return allAccounts; }
+
+    public AccountResult returnAccountResult(Account account) {
+        if(account.getAccountId() == null) return new AccountResult(false, "Account ID missing or incorrect", null);
+
+        if (checkAccountID(account.getAccountId())) {
+            registerAccount(account.getAccountId());
+            return new AccountResult(true, "Your account is opened",
+                                     getLastCreatedPassword(account.getAccountId()));
+        }
+
+        return new AccountResult(false, "Account with AccountID already exists.", null);
+    }
 }

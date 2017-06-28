@@ -20,12 +20,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.POST)
     public AccountResult registerAccount(@RequestBody Account account) {
-        if (accountHelper.checkAccountID(account.getAccountId())) {
-            accountHelper.registerAccount(account.getAccountId());
-            return new AccountResult(true, "Your account is opened",
-                                     accountHelper.getLastCreatedPassword(account.getAccountId()));
-        }
-        return new AccountResult(false, "Account with AccountID already exists.", null);
+        return accountHelper.returnAccountResult(account);
     }
 
     // Ovo je napravljeno za svrhe testiranja
