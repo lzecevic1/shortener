@@ -27,15 +27,16 @@ public class VisitController {
     private RegisterHelper registerHelper;
 
     @RequestMapping(value = "/{url}")
-    public void setVisitStatisticsAndRedirect(@RequestHeader(value = "Authorization") String auth,
+    public void setVisitStatisticsAndRedirect(// @RequestHeader(value = "Authorization") String auth,
                                          @PathVariable String url,
                                          HttpServletResponse response) throws IOException {
-        String username = credentialsChecker.getUsernameIfAccountExists(auth.substring(6, auth.length()));
+     //   String username = credentialsChecker.getUsernameIfAccountExists(auth.substring(6, auth.length()));
         RegisteredURL urlToVisit = registerHelper.getRegisteredURLFromShort(url);
-        if(username != null) statisticHelper.setStatistic(username, urlToVisit.getUrl());
+     //   if(username != null) statisticHelper.setStatistic(username, urlToVisit.getUrl());
 
         // Redirect
+         response.setHeader("Location", urlToVisit.getUrl());
+//        response.sendRedirect(urlToVisit.getUrl());
         response.setStatus(urlToVisit.getRedirectType());
-        response.sendRedirect(urlToVisit.getUrl());
     }
 }
