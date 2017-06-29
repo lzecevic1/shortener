@@ -2,17 +2,9 @@ package com.company.Controller;
 
 import com.company.Helper.RegisterHelper;
 import com.company.Model.RegisteredURL;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.Authenticator;
 
 /**
  * Created by lzecevic on 6/21/17.
@@ -32,8 +24,8 @@ public class RegisterController {
                            @RequestBody RegisteredURL registeredURL){
 
         RegisteredURL newURL = registerHelper.getShortURLIfAuthenticated(auth, registeredURL);
+        if(newURL != null) return "http://localhost:8080/" + newURL.getShortURL();
 
-
-        return "http://localhost:8080/" + newURL.getShortURL();
+        return "Incorrect account ID or password!";
     }
 }

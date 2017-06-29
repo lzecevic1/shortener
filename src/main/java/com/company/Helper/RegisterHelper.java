@@ -29,8 +29,8 @@ public class RegisterHelper {
     }
 
     public RegisteredURL getShortURLIfAuthenticated(String auth, RegisteredURL registeredURL){
-        if(checkRequestParameters(auth)) {
-            return registerOrReturnExistingURL(registeredURL);
+        if(isUserAuthenticated(auth)) {
+            return registerOrReturnExisting(registeredURL);
         }
         return null;
     }
@@ -39,11 +39,13 @@ public class RegisterHelper {
         return registeredURLs.get(shortURL);
     }
 
-    private Boolean checkRequestParameters(String auth) {
+    private Boolean isUserAuthenticated(String auth) {
         return credentialsChecker.decodeAndcheckCredentials(auth.substring(6, auth.length()));
     }
 
     private RegisteredURL getRegisteredURL(RegisteredURL urlToRegister) {
+        // Ako je dugi url urlToRegister isti kao url vec postojeceg url-a, vraca se registrovani url
+        // U suprotnom se vraca null
         for (RegisteredURL registeredURL: registeredURLs.values()) {
             if(urlToRegister.getUrl().equals(registeredURL.getUrl())){
                 return registeredURL;
@@ -52,18 +54,25 @@ public class RegisterHelper {
         return null;
     }
 
-    private RegisteredURL registerOrReturnExistingURL(RegisteredURL registeredURL) {
-        // provjera da li postoji vec skraceni URL
+    // Metoda provjerava da li je neki url vec skracen
+    // Ukoliko jeste, vraca objekat sa tim url-om i njegovim kratkim url-om
+    // Ukoliko nije, generise novi objekat i stavlja ga u mapu
+    private RegisteredURL registerOrReturnExisting(RegisteredURL registeredURL) {
+
         if(getRegisteredURL(registeredURL) != null) return getRegisteredURL(registeredURL);
 
         // Registrovanje novog URL-a
         if(registeredURL.getRedirectType() == null) registeredURL.setRedirectType(302);
-        registeredURL.setShortURL(shorten(registeredURL.getUrl()));
+        registeredURL.setShortURL(getNewShortUrl());
         registeredURLs.put(registeredURL.getShortURL(), registeredURL);
         return registeredURL;
     }
 
-    private String shorten(String URL){
-        return stringGenerator.generateString();
+    // Metoda provjerava da li vec postoji isti generisani random string za kratki url
+    // Ukoliko postoji, generise novi
+    private String getNewShortUrl(){
+        String newShort = stringGenerator.generateString();
+        while(registeredURLs.get(newShort) != null) newShort = stringGenerator.generateString();
+        return newShort;
     }
 }

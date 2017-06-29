@@ -3,9 +3,9 @@ package com.company.Controller;
 import com.company.Helper.CredentialsChecker;
 import com.company.Helper.RegisterHelper;
 import com.company.Helper.StatisticHelper;
-import com.company.Model.Account;
 import com.company.Model.RegisteredURL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by lzecevic on 6/23/17.
  */
-@RestController
+@Controller
 public class VisitController {
 
     @Autowired
@@ -27,15 +27,15 @@ public class VisitController {
     private RegisterHelper registerHelper;
 
     @RequestMapping(value = "/{url}")
-    public void visitURLAndSetStatistics(@RequestHeader(value = "Authorization") String auth,
+    public void setVisitStatisticsAndRedirect(@RequestHeader(value = "Authorization") String auth,
                                          @PathVariable String url,
                                          HttpServletResponse response) throws IOException {
         String username = credentialsChecker.getUsernameIfAccountExists(auth.substring(6, auth.length()));
-        if(username != null) statisticHelper.setStatistic(username, url);
+        RegisteredURL urlToVisit = registerHelper.getRegisteredURLFromShort(url);
+        if(username != null) statisticHelper.setStatistic(username, urlToVisit.getUrl());
 
-        RegisteredURL registeredURL = registerHelper.getRegisteredURLFromShort(url);
-
-        response.setStatus(registeredURL.getRedirectType());
-        response.sendRedirect(registeredURL.getUrl());
+        // Redirect
+        response.setStatus(urlToVisit.getRedirectType());
+        response.sendRedirect(urlToVisit.getUrl());
     }
 }
