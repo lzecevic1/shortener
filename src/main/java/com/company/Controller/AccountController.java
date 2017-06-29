@@ -22,10 +22,4 @@ public class AccountController {
     public AccountResult registerAccount(@RequestBody Account account) {
         return accountHelper.returnAccountResult(account);
     }
-
-    // Ovo je napravljeno za svrhe testiranja
-    @RequestMapping(value = "/all")
-    public List<Account> getAll(){
-        return new ArrayList<>(accountHelper.getAllAccounts().values());
-    }
 }

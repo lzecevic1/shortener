@@ -12,7 +12,7 @@ public class CredentialsChecker {
     @Autowired
     private AccountHelper accountHelper;
 
-    public Boolean decodeAndcheckCredentials(String auth) {
+    public Boolean decodeAndCheckCredentials(String auth) {
         Account accountToCheck = decode(auth);
         return accountHelper.checkIfAccountExists(accountToCheck.getAccountId(), accountToCheck.getPassword());
     }
@@ -23,14 +23,14 @@ public class CredentialsChecker {
         return null;
     }
 
-    private Boolean checkCredentials(Account account){
-        return accountHelper.checkIfAccountExists(account.getAccountId(), account.getPassword());
-    }
-
     private Account decode(String auth){
         String decodedCredentials = new String(Base64.getDecoder().decode(auth));
         String[] credentials = parseString(decodedCredentials);
         return new Account (credentials[0], credentials[1]);
+    }
+
+    private Boolean checkCredentials(Account account){
+        return accountHelper.checkIfAccountExists(account.getAccountId(), account.getPassword());
     }
 
     private String[] parseString(String auth) {

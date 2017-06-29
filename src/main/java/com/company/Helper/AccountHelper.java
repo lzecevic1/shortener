@@ -28,8 +28,20 @@ public class AccountHelper {
         this.allAccounts = new HashMap<>();
     }
 
+    public AccountResult returnAccountResult(Account account) {
+        if(account.getAccountId() == null) return new AccountResult(false, "Account ID missing or incorrect", null);
+
+        if (checkAccountID(account.getAccountId())) {
+            registerAccount(account.getAccountId());
+            return new AccountResult(true, "Your account is opened",
+                    getLastCreatedPassword(account.getAccountId()));
+        }
+
+        return new AccountResult(false, "Account with AccountID already exists.", null);
+    }
+
     // Vraca true ako ne postoji nijedan account sa datim ID-em
-    public Boolean checkAccountID(String accountId){
+    private Boolean checkAccountID(String accountId){
         return allAccounts.get(accountId) == null;
     }
 
@@ -42,26 +54,12 @@ public class AccountHelper {
         return allAccounts.get(accountID) != null && password.equals(allAccounts.get(accountID).getPassword());
     }
 
-    public void registerAccount(String accountId) {
+    private void registerAccount(String accountId) {
         allAccounts.put(accountId, new Account(accountId, randomStringGenerator.generateString()));
         statisticHelper.putNewAccount(accountId);
     }
 
-    public String getLastCreatedPassword(String accountID) {
+    private String getLastCreatedPassword(String accountID) {
         return allAccounts.get(accountID).getPassword();
-    }
-
-    public Map<String, Account> getAllAccounts() { return allAccounts; }
-
-    public AccountResult returnAccountResult(Account account) {
-        if(account.getAccountId() == null) return new AccountResult(false, "Account ID missing or incorrect", null);
-
-        if (checkAccountID(account.getAccountId())) {
-            registerAccount(account.getAccountId());
-            return new AccountResult(true, "Your account is opened",
-                                     getLastCreatedPassword(account.getAccountId()));
-        }
-
-        return new AccountResult(false, "Account with AccountID already exists.", null);
     }
 }

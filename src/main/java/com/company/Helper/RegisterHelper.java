@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by lzecevic on 6/22/17.
@@ -40,7 +39,7 @@ public class RegisterHelper {
     }
 
     private Boolean isUserAuthenticated(String auth) {
-        return credentialsChecker.decodeAndcheckCredentials(auth.substring(6, auth.length()));
+        return credentialsChecker.decodeAndCheckCredentials(auth.substring(6, auth.length()));
     }
 
     private RegisteredURL getRegisteredURL(RegisteredURL urlToRegister) {
