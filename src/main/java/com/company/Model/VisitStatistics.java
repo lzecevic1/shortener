@@ -1,8 +1,5 @@
 package com.company.Model;
 
-/**
- * Created by lzecevic on 6/23/17.
- */
 public class VisitStatistics {
     private String url;
     private Integer numberOfVisits;
@@ -35,8 +32,7 @@ public class VisitStatistics {
 
         VisitStatistics that = (VisitStatistics) o;
 
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
-        return numberOfVisits != null ? numberOfVisits.equals(that.numberOfVisits) : that.numberOfVisits == null;
+        return (url != null ? url.equals(that.url) : that.url == null) && (numberOfVisits != null ? numberOfVisits.equals(that.numberOfVisits) : that.numberOfVisits == null);
     }
 
     @Override

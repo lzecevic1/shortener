@@ -1,31 +1,34 @@
 package com.company.Controller;
 
-import com.company.Helper.RegisterHelper;
-import com.company.Model.RegisteredURL;
+import com.company.Interface.RegisterDataService;
+import com.company.Model.LongURL;
+import com.company.Util.CredentialsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-
-/**
- * Created by lzecevic on 6/21/17.
- */
 
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
+    private static String START_OF_URL = "http://localhost:8080/";
 
     @Autowired
-    private RegisterHelper registerHelper;
+    private RegisterDataService registerDataService;
+    @Autowired
+    private CredentialsChecker credentialsChecker;
 
-    // Basic auth vrati npr. Basic QnViYmxlczpSYk9jQmpxSA==
-    // ovaj string se mora skratiti (Odbaciti dio "Basic ") prije poziva metode decode
     @RequestMapping(method = RequestMethod.POST)
-    public String register(@RequestHeader(value = "Authorization") String auth,
-                           @RequestBody RegisteredURL registeredURL){
+    public String registerURL(@RequestHeader(value = "Authorization") String auth,
+                              @RequestBody LongURL longURL){
 
-        RegisteredURL newURL = registerHelper.getShortURLIfAuthenticated(auth, registeredURL);
-        if(newURL != null) return "http://localhost:8080/" + newURL.getShortURL();
+        String message = checkRequestParams(auth, longURL);
+        if(message != null) return message;
+        return START_OF_URL + registerDataService.getShortURL(longURL);
+    }
 
-        return "Incorrect account ID or password!";
+    private String checkRequestParams(String auth, LongURL longURL) {
+        if(longURL == null || longURL.getUrl() == null) return "URL missing or incorrect!";
+        if(auth == null) return "Authorization missing!";
+        if(!credentialsChecker.decodeAndCheckCredentials(auth)) return "Incorrect username or password!";
+        return null;
     }
 }

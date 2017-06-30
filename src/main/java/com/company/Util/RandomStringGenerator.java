@@ -1,4 +1,4 @@
-package com.company.Helper;
+package com.company.Util;
 
 import java.util.Random;
 
@@ -9,7 +9,7 @@ import java.util.Random;
 public class RandomStringGenerator {
 
     // Metoda za generisanje random stringa duzine 8 znakova
-    String generateString() {
+    public String generateString() {
         String alphaNums = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();

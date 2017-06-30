@@ -1,29 +1,23 @@
-package com.company.Helper;
+package com.company.Impl;
 
+import com.company.Interface.StatisticDataService;
 import com.company.Model.VisitStatistics;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by lzecevic on 6/23/17.
- */
-
-@Component
-@Scope("singleton")
-public class StatisticHelper {
+public class StatisticDataServiceImpl implements StatisticDataService {
     private Map<String, List<VisitStatistics>> statistics;
 
-    public StatisticHelper() { statistics = new HashMap<>(); }
+    public StatisticDataServiceImpl() { statistics = new HashMap<>(); }
 
     public List<VisitStatistics> getStatistics(String accountId) {
         return statistics.get(accountId);
     }
 
-    // Vraca true ako je statistika uspjesno postavljena, false u suprotnom
     public void setStatistic(String accountId, String url){
-
         List<VisitStatistics> listOfVisitStatistics = getListOfVisitStatisticsForUser(accountId);
         VisitStatistics statisticForEdit = getVisitStatisticsForUser(listOfVisitStatistics, url);
 
@@ -35,7 +29,7 @@ public class StatisticHelper {
         statistics.put(accountId, listOfVisitStatistics);
     }
 
-    void putNewAccount(String accountId) {
+    public void putNewAccount(String accountId) {
         statistics.put(accountId, new ArrayList<>());
     }
 
@@ -47,6 +41,6 @@ public class StatisticHelper {
         for (VisitStatistics v: visitStatistics) {
             if(url.equals(v.getUrl())) return v;
         }
-        return null; // Vraca null ukoliko nije pronadjena statistika za odredjeni url
+        return null;
     }
 }
