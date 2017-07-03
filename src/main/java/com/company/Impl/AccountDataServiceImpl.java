@@ -51,6 +51,5 @@ public class AccountDataServiceImpl implements AccountDataService {
             statisticDataService.putNewAccount(accountId);
         }
     }
-
 }
 
