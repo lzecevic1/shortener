@@ -1,7 +1,7 @@
-package com.company.Util;
+package com.company.util;
 
-import com.company.Interface.AccountDataService;
-import com.company.Model.FullAccount;
+import com.company.service.AccountDataService;
+import com.company.model.FullAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Base64;

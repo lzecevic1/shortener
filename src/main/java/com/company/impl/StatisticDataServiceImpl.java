@@ -1,7 +1,7 @@
-package com.company.Impl;
+package com.company.impl;
 
-import com.company.Interface.StatisticDataService;
-import com.company.Model.VisitStatistics;
+import com.company.service.StatisticDataService;
+import com.company.model.VisitStatistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;

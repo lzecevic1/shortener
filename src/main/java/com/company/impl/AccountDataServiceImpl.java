@@ -1,11 +1,10 @@
-package com.company.Impl;
+package com.company.impl;
 
-import com.company.Interface.StatisticDataService;
-import com.company.Model.AccountResult;
-import com.company.Model.FullAccount;
-import com.company.Util.RandomStringGenerator;
-import com.company.Interface.AccountDataService;
-import com.company.Model.Account;
+import com.company.service.StatisticDataService;
+import com.company.model.FullAccount;
+import com.company.util.RandomStringGenerator;
+import com.company.service.AccountDataService;
+import com.company.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -24,6 +23,13 @@ public class AccountDataServiceImpl implements AccountDataService {
         allAccounts = new HashMap<>();
     }
 
+    public AccountDataServiceImpl(RandomStringGenerator randomStringGenerator,
+                                  StatisticDataService statisticDataService) {
+        this.randomStringGenerator = randomStringGenerator;
+        this.statisticDataService = statisticDataService;
+        allAccounts = new HashMap<>();
+    }
+
     public Boolean checkIfAccountExists(String accountID, String password){
         if(accountID == null || password == null) return false;
         FullAccount account = allAccounts.get(accountID);
@@ -34,10 +40,8 @@ public class AccountDataServiceImpl implements AccountDataService {
         return allAccounts.get(accountID).getPassword();
     }
 
-    public void setAccountResult(AccountResult accountResult, Boolean success, String description, String password) {
-        accountResult.setSuccess(success);
-        accountResult.setDescription(description);
-        accountResult.setPassword(password);
+    public Map<String, FullAccount> getAllAccounts() {
+        return allAccounts;
     }
 
     public Boolean isRegisteredAccountID(Account account) {

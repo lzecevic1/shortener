@@ -1,8 +1,8 @@
-package com.company.Controller;
+package com.company.controller;
 
-import com.company.Interface.StatisticDataService;
-import com.company.Util.CredentialsChecker;
-import com.company.Model.VisitStatistics;
+import com.company.service.StatisticDataService;
+import com.company.util.CredentialsChecker;
+import com.company.model.VisitStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

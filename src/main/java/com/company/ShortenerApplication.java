@@ -1,13 +1,13 @@
 package com.company;
 
-import com.company.Impl.AccountDataServiceImpl;
-import com.company.Impl.RegisterDataServiceImpl;
-import com.company.Impl.StatisticDataServiceImpl;
-import com.company.Interface.AccountDataService;
-import com.company.Interface.RegisterDataService;
-import com.company.Interface.StatisticDataService;
-import com.company.Util.CredentialsChecker;
-import com.company.Util.RandomStringGenerator;
+import com.company.impl.AccountDataServiceImpl;
+import com.company.impl.RegisterDataServiceImpl;
+import com.company.impl.StatisticDataServiceImpl;
+import com.company.service.AccountDataService;
+import com.company.service.RegisterDataService;
+import com.company.service.StatisticDataService;
+import com.company.util.CredentialsChecker;
+import com.company.util.RandomStringGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +15,13 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ShortenerApplication {
     @Bean
-    AccountDataService accountInterface() { return new AccountDataServiceImpl(); }
+    AccountDataService accountDataService(){
+        return new AccountDataServiceImpl();
+    }
     @Bean
-    RegisterDataService registerInterface() { return new RegisterDataServiceImpl(); }
+    RegisterDataService registerDataService() { return new RegisterDataServiceImpl(); }
     @Bean
-    StatisticDataService statisticInterface() { return new StatisticDataServiceImpl(); }
+    StatisticDataService statisticDataService() { return new StatisticDataServiceImpl(); }
     @Bean
 	RandomStringGenerator randomStringGenerator() { return new RandomStringGenerator(); }
 	@Bean

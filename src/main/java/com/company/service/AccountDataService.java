@@ -1,12 +1,16 @@
-package com.company.Interface;
+package com.company.service;
 
-import com.company.Model.Account;
-import com.company.Model.AccountResult;
+import com.company.model.Account;
+import com.company.model.FullAccount;
+import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
+@Service
 public interface AccountDataService {
     void registerAccount(Account account);
     Boolean checkIfAccountExists(String accountID, String password);
     Boolean isRegisteredAccountID(Account account);
     String getPassword(String accountID);
-    void setAccountResult(AccountResult accountResult, Boolean success, String description, String password);
+    Map<String, FullAccount> getAllAccounts();
 }

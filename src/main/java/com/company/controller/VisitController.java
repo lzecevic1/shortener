@@ -1,9 +1,9 @@
-package com.company.Controller;
+package com.company.controller;
 
-import com.company.Interface.RegisterDataService;
-import com.company.Interface.StatisticDataService;
-import com.company.Util.CredentialsChecker;
-import com.company.Model.RegisteredURL;
+import com.company.service.RegisterDataService;
+import com.company.service.StatisticDataService;
+import com.company.util.CredentialsChecker;
+import com.company.model.RegisteredURL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

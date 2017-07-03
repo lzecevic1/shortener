@@ -1,8 +1,8 @@
-package com.company.Controller;
+package com.company.controller;
 
-import com.company.Interface.RegisterDataService;
-import com.company.Model.LongURL;
-import com.company.Util.CredentialsChecker;
+import com.company.service.RegisterDataService;
+import com.company.model.LongURL;
+import com.company.util.CredentialsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

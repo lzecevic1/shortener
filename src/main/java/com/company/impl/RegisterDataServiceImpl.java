@@ -1,9 +1,9 @@
-package com.company.Impl;
+package com.company.impl;
 
-import com.company.Interface.RegisterDataService;
-import com.company.Model.LongURL;
-import com.company.Model.RegisteredURL;
-import com.company.Util.RandomStringGenerator;
+import com.company.service.RegisterDataService;
+import com.company.model.LongURL;
+import com.company.model.RegisteredURL;
+import com.company.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -16,6 +16,10 @@ public class RegisterDataServiceImpl implements RegisterDataService {
     private RandomStringGenerator stringGenerator;
 
     public RegisterDataServiceImpl() {
+        registeredURLs = new HashMap<>();
+    }
+    public RegisterDataServiceImpl(RandomStringGenerator randomStringGenerator) {
+        stringGenerator = randomStringGenerator;
         registeredURLs = new HashMap<>();
     }
 

@@ -1,4 +1,4 @@
-package com.company.Model;
+package com.company.model;
 
 public class VisitStatistics {
     private String url;
