@@ -1,8 +1,5 @@
 package com.company.model;
 
-/**
- * Created by lzecevic on 6/30/17.
- */
 public class FullAccount extends Account {
     private String password;
 

@@ -24,13 +24,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ShortenerApplicationTests {
 
     @Mock
-    AccountDataService accountDataService;
+    private AccountDataService accountDataService;
     @Mock
-    RegisterDataService registerDataService;
+    private RegisterDataService registerDataService;
     @Mock
-    RandomStringGenerator randomStringGenerator;
+    private RandomStringGenerator randomStringGenerator;
     @Mock
-    StatisticDataService statisticDataService;
+    private StatisticDataService statisticDataService;
 
     @Before
     public void setUp() throws Exception {
@@ -61,5 +61,4 @@ public class ShortenerApplicationTests {
         statisticDataService.setStatistic("Lejla", "https://www.martinfowler.com/articles/mocksArentStubs.html");
         Assert.assertEquals(statisticDataService.getStatistics("Lejla").size(), 1);
     }
-
 }
