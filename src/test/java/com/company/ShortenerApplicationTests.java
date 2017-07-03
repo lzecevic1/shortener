@@ -54,4 +54,12 @@ public class ShortenerApplicationTests {
         String shortURL = registerDataService.getShortURL(longURL);
         Assert.assertEquals(longURL.getUrl(), registerDataService.getLongURLFromShort(shortURL).getUrl());
     }
+
+    @Test
+    public void testStatisticDataService_setStatistic(){
+        statisticDataService.putNewAccount("Lejla");
+        statisticDataService.setStatistic("Lejla", "https://www.martinfowler.com/articles/mocksArentStubs.html");
+        Assert.assertEquals(statisticDataService.getStatistics("Lejla").size(), 1);
+    }
+
 }

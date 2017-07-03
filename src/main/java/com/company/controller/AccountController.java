@@ -15,13 +15,9 @@ public class AccountController {
     @Autowired
     private StatisticDataService statisticDataService;
 
-    private AccountResult accountResult;
-    public AccountController() {
-        accountResult = new AccountResult();
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public AccountResult registerAccount(@RequestBody Account account) {
+        AccountResult accountResult = new AccountResult();
         if (isAccountValid(account)) {
             if (!isRegistered(account)) {
                 accountDataService.registerAccount(account);
