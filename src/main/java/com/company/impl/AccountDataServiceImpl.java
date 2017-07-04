@@ -23,8 +23,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         allAccounts = new HashMap<>();
     }
 
-    public AccountDataServiceImpl(RandomStringGenerator randomStringGenerator,
-                                  StatisticDataService statisticDataService) {
+    public AccountDataServiceImpl(RandomStringGenerator randomStringGenerator, StatisticDataService statisticDataService) {
         this.randomStringGenerator = randomStringGenerator;
         this.statisticDataService = statisticDataService;
         allAccounts = new HashMap<>();

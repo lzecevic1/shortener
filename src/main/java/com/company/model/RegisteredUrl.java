@@ -1,9 +1,9 @@
 package com.company.model;
 
-public class RegisteredURL extends LongURL{
+public class RegisteredUrl extends LongUrl {
     private String shortURL;
 
-    public RegisteredURL(String url, Integer redirectType, String shortURL) {
+    public RegisteredUrl(String url, Integer redirectType, String shortURL) {
         super(url, redirectType);
         this.shortURL = shortURL;
     }
@@ -22,7 +22,7 @@ public class RegisteredURL extends LongURL{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        RegisteredURL that = (RegisteredURL) o;
+        RegisteredUrl that = (RegisteredUrl) o;
 
         return shortURL != null ? shortURL.equals(that.shortURL) : that.shortURL == null;
     }
@@ -36,7 +36,7 @@ public class RegisteredURL extends LongURL{
 
     @Override
     public String toString() {
-        return "RegisteredURL{" +
+        return "RegisteredUrl{" +
                 "longURL='" + getUrl() + '\'' +
                 ", redirectType='" + getRedirectType() + '\'' +
                 ", shortURL='" + shortURL + '\'' +

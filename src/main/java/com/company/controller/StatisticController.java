@@ -18,14 +18,15 @@ public class StatisticController {
     private CredentialsChecker credentialsChecker;
 
     @RequestMapping(value = "/{AccountId}", method = RequestMethod.POST)
-    public List<VisitStatistics> getStatistic(@RequestHeader(value = "Authorization") String auth,
+    public List<VisitStatistics> getStatistic(@RequestHeader(value = "Authorization") String credentials,
                                               @PathVariable String AccountId){
-        if(auth == null || AccountId == null) return null;
-        if(credentialsChecker.authenticate(auth)){
-            return statisticDataService.getStatistics(AccountId);
-        }
-
+        if(invalidRequestParameters(credentials, AccountId)) return null;
+        if(credentialsChecker.authenticate(credentials)) return statisticDataService.getStatistics(AccountId);
         return null;
+    }
+
+    private boolean invalidRequestParameters(String credentials, String AccountId) {
+        return credentials == null || AccountId == null;
     }
 
 }

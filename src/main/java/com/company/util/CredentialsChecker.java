@@ -16,21 +16,21 @@ public class CredentialsChecker {
         return checkCredentials(accountToCheck);
     }
 
-    public String getUsernameIfAccountExists(String credentials){
+    public String getUsernameIfAccountExists(String credentials) {
         FullAccount account = decode(credentials.substring(6, credentials.length()));
         if(account == null || account.getAccountId() == null) return null;
         if(checkCredentials(account)) return account.getAccountId();
         return null;
     }
 
-    private FullAccount decode(String credentials){
+    private FullAccount decode(String credentials) {
         String decodedCredentials = new String(Base64.getDecoder().decode(credentials));
         String[] credentialArray = parseString(decodedCredentials);
         if(credentialArray.length == 2) return new FullAccount (credentialArray[0], credentialArray[1]);
         return null;
     }
 
-    private Boolean checkCredentials(FullAccount account){
+    private Boolean checkCredentials(FullAccount account) {
         return accountDataService.checkIfAccountExists(account.getAccountId(), account.getPassword());
     }
 

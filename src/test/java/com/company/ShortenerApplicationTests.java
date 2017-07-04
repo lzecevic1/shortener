@@ -4,7 +4,7 @@ import com.company.impl.AccountDataServiceImpl;
 import com.company.impl.RegisterDataServiceImpl;
 import com.company.impl.StatisticDataServiceImpl;
 import com.company.model.Account;
-import com.company.model.LongURL;
+import com.company.model.LongUrl;
 import com.company.service.AccountDataService;
 import com.company.service.RegisterDataService;
 import com.company.service.StatisticDataService;
@@ -50,9 +50,9 @@ public class ShortenerApplicationTests {
 
     @Test
     public void testRegisterDataService_registerURL(){
-        LongURL longURL = new LongURL("https://www.martinfowler.com/articles/mocksArentStubs.html", 301);
-        String shortURL = registerDataService.getShortURL(longURL);
-        Assert.assertEquals(longURL.getUrl(), registerDataService.getLongURLFromShort(shortURL).getUrl());
+        LongUrl longUrl = new LongUrl("https://www.martinfowler.com/articles/mocksArentStubs.html", 301);
+        String shortURL = registerDataService.getShortURL(longUrl);
+        Assert.assertEquals(longUrl.getUrl(), registerDataService.getLongURLFromShort(shortURL).getUrl());
     }
 
     @Test

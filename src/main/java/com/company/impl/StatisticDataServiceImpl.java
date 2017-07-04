@@ -17,7 +17,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
         return statistics.get(accountId);
     }
 
-    public void setStatistic(String accountId, String url){
+    public void setStatistic(String accountId, String url) {
         List<VisitStatistics> listOfVisitStatistics = getListOfVisitStatisticsForUser(accountId);
         VisitStatistics statisticForEdit = getVisitStatisticsForUser(listOfVisitStatistics, url);
 

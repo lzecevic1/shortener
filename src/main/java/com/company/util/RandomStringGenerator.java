@@ -6,12 +6,12 @@ public class RandomStringGenerator {
     private static String ALPHA_NUMS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 
     public String generateString() {
-        StringBuilder salt = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 8) { // length of the random string.
+        while (stringBuilder.length() < 8) {
             int index = (int) (rnd.nextFloat() * ALPHA_NUMS.length());
-            salt.append(ALPHA_NUMS.charAt(index));
+            stringBuilder.append(ALPHA_NUMS.charAt(index));
         }
-        return salt.toString();
+        return stringBuilder.toString();
     }
 }

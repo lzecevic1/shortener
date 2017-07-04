@@ -1,11 +1,11 @@
 package com.company.service;
 
-import com.company.model.LongURL;
-import com.company.model.RegisteredURL;
+import com.company.model.LongUrl;
+import com.company.model.RegisteredUrl;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface RegisterDataService {
-    RegisteredURL getLongURLFromShort(String shortURL);
-    String getShortURL(LongURL longURL);
+    RegisteredUrl getLongURLFromShort(String shortURL);
+    String getShortURL(LongUrl longUrl);
 }

@@ -1,13 +1,13 @@
 package com.company.model;
 
-public class LongURL {
+public class LongUrl {
     private String url;
     private Integer redirectType;
 
-    public LongURL() {
+    public LongUrl() {
     }
 
-    public LongURL(String url, Integer redirectType) {
+    public LongUrl(String url, Integer redirectType) {
         this.url = url;
         this.redirectType = redirectType;
     }
@@ -33,10 +33,10 @@ public class LongURL {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LongURL longURL = (LongURL) o;
+        LongUrl longUrl = (LongUrl) o;
 
-        if (url != null ? !url.equals(longURL.url) : longURL.url != null) return false;
-        return redirectType != null ? redirectType.equals(longURL.redirectType) : longURL.redirectType == null;
+        if (url != null ? !url.equals(longUrl.url) : longUrl.url != null) return false;
+        return redirectType != null ? redirectType.equals(longUrl.redirectType) : longUrl.redirectType == null;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class LongURL {
 
     @Override
     public String toString() {
-        return "LongURL{" +
+        return "LongUrl{" +
                 "url='" + url + '\'' +
                 ", redirectType=" + redirectType +
                 '}';

@@ -1,9 +1,9 @@
 package com.company.controller;
 
+import com.company.model.RegisteredUrl;
 import com.company.service.RegisterDataService;
 import com.company.service.StatisticDataService;
 import com.company.util.CredentialsChecker;
-import com.company.model.RegisteredURL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class VisitController {
         }
 
         String username = credentialsChecker.getUsernameIfAccountExists(credentials);
-        RegisteredURL urlToVisit = registerDataService.getLongURLFromShort(url);
+        RegisteredUrl urlToVisit = registerDataService.getLongURLFromShort(url);
         if(username != null) {
             statisticDataService.setStatistic(username, urlToVisit.getUrl());
             // Redirect
