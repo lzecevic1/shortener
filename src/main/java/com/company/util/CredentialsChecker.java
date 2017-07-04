@@ -10,23 +10,23 @@ public class CredentialsChecker {
     @Autowired
     private AccountDataService accountDataService;
 
-    public Boolean decodeAndCheckCredentials(String auth) {
-        FullAccount accountToCheck = decode(auth.substring(6, auth.length()));
+    public Boolean authenticate(String credentials) {
+        FullAccount accountToCheck = decode(credentials.substring(6, credentials.length()));
         if(accountToCheck == null) return false;
-        return accountDataService.checkIfAccountExists(accountToCheck.getAccountId(), accountToCheck.getPassword());
+        return checkCredentials(accountToCheck);
     }
 
-    public String getUsernameIfAccountExists(String auth){
-        FullAccount account = decode(auth.substring(6, auth.length()));
+    public String getUsernameIfAccountExists(String credentials){
+        FullAccount account = decode(credentials.substring(6, credentials.length()));
         if(account == null || account.getAccountId() == null) return null;
         if(checkCredentials(account)) return account.getAccountId();
         return null;
     }
 
-    private FullAccount decode(String auth){
-        String decodedCredentials = new String(Base64.getDecoder().decode(auth));
-        String[] credentials = parseString(decodedCredentials);
-        if(credentials.length == 2) return new FullAccount (credentials[0], credentials[1]);
+    private FullAccount decode(String credentials){
+        String decodedCredentials = new String(Base64.getDecoder().decode(credentials));
+        String[] credentialArray = parseString(decodedCredentials);
+        if(credentialArray.length == 2) return new FullAccount (credentialArray[0], credentialArray[1]);
         return null;
     }
 

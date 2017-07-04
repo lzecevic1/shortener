@@ -21,7 +21,7 @@ public class StatisticController {
     public List<VisitStatistics> getStatistic(@RequestHeader(value = "Authorization") String auth,
                                               @PathVariable String AccountId){
         if(auth == null || AccountId == null) return null;
-        if(credentialsChecker.decodeAndCheckCredentials(auth)){
+        if(credentialsChecker.authenticate(auth)){
             return statisticDataService.getStatistics(AccountId);
         }
 

@@ -25,15 +25,15 @@ public class VisitController {
     private RegisterDataService registerDataService;
 
     @RequestMapping(value = "/{url}")
-    public void setVisitStatisticsAndRedirect(@RequestHeader(value = "Authorization") String auth,
+    public void setVisitStatisticsAndRedirect(@RequestHeader(value = "Authorization") String credentials,
                                               @PathVariable String url,
                                               HttpServletResponse response) throws IOException {
-        if(url == null || auth == null) {
+        if(invalidRequestParameters(credentials, url)) {
             response.setStatus(HttpStatus.BAD_REQUEST.value());
             return;
         }
 
-        String username = credentialsChecker.getUsernameIfAccountExists(auth);
+        String username = credentialsChecker.getUsernameIfAccountExists(credentials);
         RegisteredURL urlToVisit = registerDataService.getLongURLFromShort(url);
         if(username != null) {
             statisticDataService.setStatistic(username, urlToVisit.getUrl());
@@ -41,5 +41,9 @@ public class VisitController {
             response.setHeader("Location", urlToVisit.getUrl());
             response.setStatus(urlToVisit.getRedirectType());
         }
+    }
+
+    private boolean invalidRequestParameters(String credentials, String url) {
+        return url == null || credentials == null;
     }
 }

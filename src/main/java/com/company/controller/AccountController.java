@@ -23,8 +23,7 @@ public class AccountController {
                 accountDataService.registerAccount(account);
                 statisticDataService.putNewAccount(account.getAccountId());
                 setAccountResult(accountResult, true, "Your account is opened", accountDataService.getPassword(account.getAccountId()));
-            }
-            else setAccountResult(accountResult, false, "Account with AccountID already exists.", null);
+            } else setAccountResult(accountResult, false, "Account with AccountID already exists.", null);
         }
         else setAccountResult(accountResult, false, "Account ID missing or incorrect!", null);
 
