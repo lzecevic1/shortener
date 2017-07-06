@@ -24,6 +24,11 @@ public class StatisticDataServiceImpl implements StatisticDataService{
          else setStatisticForExistingUser(accountId, url);
     }
 
+    private void setStatisticForNewUser(String accountId, String url) {
+        statistics.put(accountId, new ArrayList<>());
+        statistics.get(accountId).add(new Statistic(accountId, url, 1));
+    }
+
     private void setStatisticForExistingUser(String accountId, String url) {
         List<Statistic> userStatistic = statistics.get(accountId);
         Statistic statisticForEdit = getStatisticForEdit(userStatistic, url);
@@ -43,8 +48,4 @@ public class StatisticDataServiceImpl implements StatisticDataService{
         return null;
     }
 
-    private void setStatisticForNewUser(String accountId, String url) {
-        statistics.put(accountId, new ArrayList<>());
-        statistics.get(accountId).add(new Statistic(accountId, url, 1));
-    }
 }

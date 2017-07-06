@@ -1,8 +1,6 @@
 package com.company.impl;
 
 import com.company.model.Statistic;
-import com.company.repository.FullAccountRepository;
-import com.company.repository.UrlRepository;
 import com.company.repository.StatisticRepository;
 import com.company.service.StatisticDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +10,6 @@ import java.util.List;
 public class H2StatisticDataServiceImpl implements StatisticDataService {
     @Autowired
     private StatisticRepository statisticRepository;
-    @Autowired
-    private FullAccountRepository fullAccountRepository;
-    @Autowired
-    private UrlRepository urlRepository;
 
     public List<Statistic> getStatistics(String accountId) {
         return statisticRepository.findByAccountId(accountId);
