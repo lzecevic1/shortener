@@ -1,6 +1,6 @@
 package com.company.impl;
 
-import com.company.model.VisitStatistics;
+import com.company.model.Statistic;
 import com.company.service.StatisticDataService;
 
 import java.util.ArrayList;
@@ -8,39 +8,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatisticDataServiceImpl {
-    private Map<String, List<VisitStatistics>> statistics;
+public class StatisticDataServiceImpl implements StatisticDataService{
+    private Map<String, List<Statistic>> statistics;
 
-    public StatisticDataServiceImpl() { statistics = new HashMap<>(); }
+    public StatisticDataServiceImpl() {
+        statistics = new HashMap<>();
+    }
 
-    public List<VisitStatistics> getStatistics(String accountId) {
+    public List<Statistic> getStatistics(String accountId) {
         return statistics.get(accountId);
     }
 
     public void setStatistic(String accountId, String url) {
-        List<VisitStatistics> listOfVisitStatistics = getListOfVisitStatisticsForUser(accountId);
-        VisitStatistics statisticForEdit = getVisitStatisticsForUser(listOfVisitStatistics, url);
+        if(!statistics.containsKey(accountId)) setStatisticForNewUser(accountId, url);
+         else setStatisticForExistingUser(accountId, url);
+    }
 
-        if(statisticForEdit != null) {
+    private void setStatisticForExistingUser(String accountId, String url) {
+        List<Statistic> userStatistic = statistics.get(accountId);
+        Statistic statisticForEdit = getStatisticForEdit(userStatistic, url);
+        if(statisticForEdit == null) userStatistic.add(new Statistic(accountId, url, 1));
+        else {
             statisticForEdit.setNumberOfVisits(statisticForEdit.getNumberOfVisits() + 1);
-        } else {
-            listOfVisitStatistics.add(new VisitStatistics(url, 1));
+            userStatistic.add(statisticForEdit);
         }
-        statistics.put(accountId, listOfVisitStatistics);
     }
 
-    public void putNewAccount(String accountId) {
-        statistics.put(accountId, new ArrayList<>());
-    }
-
-    private List<VisitStatistics> getListOfVisitStatisticsForUser(String accountId) {
-        return statistics.get(accountId);
-    }
-
-    private VisitStatistics getVisitStatisticsForUser(List<VisitStatistics> visitStatistics, String url) {
-        for (VisitStatistics v: visitStatistics) {
-            if(url.equals(v.getUrl())) return v;
+    private Statistic getStatisticForEdit(List<Statistic> userStatistic, String url) {
+        for (Statistic s : userStatistic) {
+            if(url.equals(s.getLongUrl())){
+                return s;
+            }
         }
         return null;
+    }
+
+    private void setStatisticForNewUser(String accountId, String url) {
+        statistics.put(accountId, new ArrayList<>());
+        statistics.get(accountId).add(new Statistic(accountId, url, 1));
     }
 }

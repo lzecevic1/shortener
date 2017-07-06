@@ -18,25 +18,14 @@ public class H2StatisticDataServiceImpl implements StatisticDataService {
     private UrlRepository urlRepository;
 
     public List<Statistic> getStatistics(String accountId) {
-        Long userId = getUserId(accountId);
-        return statisticRepository.findByUserId(userId);
+        return statisticRepository.findByAccountId(accountId);
     }
 
     public void setStatistic(String accountId, String url) {
-        Long userId = getUserId(accountId);
-        Long urlId = getUrlId(url);
-        Statistic statistic = statisticRepository.findByUserIdAndUrlId(userId, urlId);
+        Statistic statistic = statisticRepository.findByAccountIdAndLongUrl(accountId, url);
         if(statistic != null) statistic.setNumberOfVisits(statistic.getNumberOfVisits() + 1);
-        else statistic = new Statistic(userId, urlId, 1);
+        else statistic = new Statistic(accountId, url, 1);
 
         statisticRepository.save(statistic);
-    }
-
-    private Long getUrlId(String url) {
-        return urlRepository.findByUrl(url).getId();
-    }
-
-    private Long getUserId(String accountId) {
-        return fullAccountRepository.findByAccountId(accountId).getId();
     }
 }

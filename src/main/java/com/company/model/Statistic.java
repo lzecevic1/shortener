@@ -11,33 +11,33 @@ public class Statistic {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long userId;
-    private Long urlId;
+    private String accountId;
+    private String longUrl;
     private Integer numberOfVisits;
 
     public Statistic() {
     }
 
-    public Statistic(Long userId, Long urlId, Integer numberOfVisits) {
-        this.userId = userId;
-        this.urlId = urlId;
+    public Statistic(String accountId, String longUrl, Integer numberOfVisits) {
+        this.accountId = accountId;
+        this.longUrl = longUrl;
         this.numberOfVisits = numberOfVisits;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
-    public Long getUrlId() {
-        return urlId;
+    public String getLongUrl() {
+        return longUrl;
     }
 
-    public void setUrlId(Long urlId) {
-        this.urlId = urlId;
+    public void setLongUrl(String longUrl) {
+        this.longUrl = longUrl;
     }
 
     public Integer getNumberOfVisits() {
@@ -47,4 +47,6 @@ public class Statistic {
     public void setNumberOfVisits(Integer numberOfVisits) {
         this.numberOfVisits = numberOfVisits;
     }
+
+
 }

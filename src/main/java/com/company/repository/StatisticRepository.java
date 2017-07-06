@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface StatisticRepository extends CrudRepository<Statistic, Long> {
-    List<Statistic> findByUserId(Long userId);
-    Statistic findByUserIdAndUrlId(Long userId, Long urlId);
-
+    List<Statistic> findByAccountId(String AccountId);
+    Statistic findByAccountIdAndLongUrl(String accountId, String longUrl);
 }
