@@ -1,7 +1,15 @@
 package com.company.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class RegisteredUrl extends LongUrl {
+
     private String shortURL;
+
+    public RegisteredUrl() {
+        super();
+    }
 
     public RegisteredUrl(String url, Integer redirectType, String shortURL) {
         super(url, redirectType);

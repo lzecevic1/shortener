@@ -1,13 +1,30 @@
 package com.company.model;
 
-public class Account {
-    private String accountId;
+import javax.persistence.*;
 
-    public Account() {
-    }
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
+@Entity
+@Inheritance(strategy=SINGLE_TABLE)
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    String accountId;
+
+    Account() { }
 
     public Account(String accountId) {
         this.accountId = accountId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAccountId() {

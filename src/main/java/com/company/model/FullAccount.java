@@ -1,7 +1,15 @@
 package com.company.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class FullAccount extends Account {
+
     private String password;
+
+    public FullAccount() {
+        super();
+    }
 
     public FullAccount(String accountId, String password) {
         super(accountId);
@@ -19,7 +27,7 @@ public class FullAccount extends Account {
     @Override
     public String toString() {
         return "FullAccount{" +
-                "accountId='" + getAccountId() + '\'' +
+                "accountId='" + accountId + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

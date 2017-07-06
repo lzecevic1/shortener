@@ -37,7 +37,6 @@ public class VisitController {
         RegisteredUrl urlToVisit = registerDataService.getLongURLFromShort(url);
         if(username != null) {
             statisticDataService.setStatistic(username, urlToVisit.getUrl());
-            // Redirect
             response.setHeader("Location", urlToVisit.getUrl());
             response.setStatus(urlToVisit.getRedirectType());
         }

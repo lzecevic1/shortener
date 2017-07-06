@@ -1,14 +1,14 @@
 package com.company.impl;
 
-import com.company.service.StatisticDataService;
 import com.company.model.VisitStatistics;
+import com.company.service.StatisticDataService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatisticDataServiceImpl implements StatisticDataService {
+public class StatisticDataServiceImpl {
     private Map<String, List<VisitStatistics>> statistics;
 
     public StatisticDataServiceImpl() { statistics = new HashMap<>(); }

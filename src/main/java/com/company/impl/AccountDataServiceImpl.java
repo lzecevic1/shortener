@@ -51,7 +51,7 @@ public class AccountDataServiceImpl implements AccountDataService {
         if(account != null) {
             String accountId = account.getAccountId();
             allAccounts.put(accountId, new FullAccount(accountId, randomStringGenerator.generateString()));
-            statisticDataService.putNewAccount(accountId);
+//            statisticDataService.putNewAccount(accountId);
         }
     }
 }

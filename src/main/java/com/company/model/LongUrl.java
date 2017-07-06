@@ -1,15 +1,32 @@
 package com.company.model;
 
+import javax.persistence.*;
+
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
+@Entity
+@Inheritance(strategy=SINGLE_TABLE)
 public class LongUrl {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String url;
     private Integer redirectType;
 
-    public LongUrl() {
+    LongUrl() {
     }
 
     public LongUrl(String url, Integer redirectType) {
         this.url = url;
         this.redirectType = redirectType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUrl() {

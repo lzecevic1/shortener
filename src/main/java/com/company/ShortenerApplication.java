@@ -1,8 +1,8 @@
 package com.company;
 
-import com.company.impl.AccountDataServiceImpl;
-import com.company.impl.RegisterDataServiceImpl;
-import com.company.impl.StatisticDataServiceImpl;
+import com.company.impl.H2AccountDataServiceImpl;
+import com.company.impl.H2RegisterDataServiceImpl;
+import com.company.impl.H2StatisticDataServiceImpl;
 import com.company.service.AccountDataService;
 import com.company.service.RegisterDataService;
 import com.company.service.StatisticDataService;
@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Bean;
 public class ShortenerApplication {
     @Bean
     AccountDataService accountDataService(){
-        return new AccountDataServiceImpl();
+        return new H2AccountDataServiceImpl();
     }
     @Bean
-    RegisterDataService registerDataService() { return new RegisterDataServiceImpl(); }
+    RegisterDataService registerDataService() { return new H2RegisterDataServiceImpl(); }
     @Bean
-    StatisticDataService statisticDataService() { return new StatisticDataServiceImpl(); }
+    StatisticDataService statisticDataService() { return new H2StatisticDataServiceImpl(); }
     @Bean
 	RandomStringGenerator randomStringGenerator() { return new RandomStringGenerator(); }
 	@Bean
