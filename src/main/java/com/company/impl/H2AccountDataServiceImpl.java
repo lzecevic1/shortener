@@ -7,7 +7,7 @@ import com.company.service.AccountDataService;
 import com.company.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
+import java.util.*;
 
 public class H2AccountDataServiceImpl implements AccountDataService {
 
@@ -16,27 +16,38 @@ public class H2AccountDataServiceImpl implements AccountDataService {
     @Autowired
     private RandomStringGenerator randomStringGenerator;
 
-    public void registerAccount(Account account) {
-        if(account != null){
-            String accountId = account.getAccountId();
-            fullAccountRepository.save(new FullAccount(accountId, randomStringGenerator.generateString()));
+    public void registerAccount(Account account) throws Exception {
+        String accountId = account.getAccountId();
+        if (accountId == null) throw new Exception("Account ID missing!");
+        if (isRegisteredAccountID(account)) {
+            throw new Exception("Account with AccountID already exists.");
         }
+        fullAccountRepository.save(new FullAccount(accountId, randomStringGenerator.generateString()));
     }
 
     public Boolean checkIfAccountExists(String accountID, String password) {
-        return fullAccountRepository.findByAccountIdAndPassword(accountID, password) != null;
+        Optional<FullAccount> accountFromDB = fullAccountRepository.findByAccountIdAndPassword(accountID, password);
+        return accountFromDB.isPresent();
     }
 
     public Boolean isRegisteredAccountID(Account account) {
-        return fullAccountRepository.findByAccountId(account.getAccountId()) != null;
+        Optional<FullAccount> accountFromDB = getAccountFromDB(account.getAccountId());
+        return accountFromDB.isPresent();
     }
 
-    public String getPassword(String accountID) {
-        FullAccount account = fullAccountRepository.findByAccountId(accountID);
-        return account.getPassword();
+    public Optional<String> getPassword(String accountID) {
+        Optional<FullAccount> accountFromDB = getAccountFromDB(accountID);
+        return accountFromDB.flatMap(fullAccount -> Optional.ofNullable(fullAccount.getPassword()));
     }
 
     public Map<String, FullAccount> getAllAccounts() {
-        return null;
+        List<FullAccount> allAccounts = (ArrayList<FullAccount>) fullAccountRepository.findAll();
+        Map<String, FullAccount> mapOfAllAccounts = new HashMap<>();
+        allAccounts.forEach(account -> mapOfAllAccounts.put(account.getAccountId(), account));
+        return mapOfAllAccounts;
+    }
+
+    private Optional<FullAccount> getAccountFromDB(String accountID) {
+        return fullAccountRepository.findByAccountId(accountID);
     }
 }

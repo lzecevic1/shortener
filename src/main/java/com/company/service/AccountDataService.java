@@ -5,12 +5,13 @@ import com.company.model.FullAccount;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public interface AccountDataService {
-    void registerAccount(Account account);
+    void registerAccount(Account account) throws Exception;
     Boolean checkIfAccountExists(String accountID, String password);
     Boolean isRegisteredAccountID(Account account);
-    String getPassword(String accountID);
+    Optional<String> getPassword(String accountID);
     Map<String, FullAccount> getAllAccounts();
 }

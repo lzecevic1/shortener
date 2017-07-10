@@ -7,35 +7,31 @@ import com.company.model.AccountResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+
 @RestController
 @RequestMapping(value = "/account")
 public class AccountController {
     @Autowired
     private AccountDataService accountDataService;
-    @Autowired
-    private StatisticDataService statisticDataService;
 
     @RequestMapping(method = RequestMethod.POST)
     public AccountResult registerAccount(@RequestBody Account account) {
         AccountResult accountResult = new AccountResult();
-        if (isAccountValid(account)) {
-            if (!isRegistered(account)) {
-                accountDataService.registerAccount(account);
-//                statisticDataService.putNewAccount(account.getAccountId());
-                setAccountResult(accountResult, true, "Your account is opened", accountDataService.getPassword(account.getAccountId()));
-            } else setAccountResult(accountResult, false, "Account with AccountID already exists.", null);
+        try {
+            accountDataService.registerAccount(account);
+            setAccountResult(accountResult, true, "Your account is opened!", getPassword(account));
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Saving to database failed. " + exception.getMessage());
+        } catch (Exception exception) {
+            setAccountResult(accountResult, false, exception.getMessage(), null);
         }
-        else setAccountResult(accountResult, false, "Account ID missing or incorrect!", null);
-
         return accountResult;
     }
 
-    private boolean isRegistered(Account account) {
-        return accountDataService.isRegisteredAccountID(account);
-    }
-
-    private boolean isAccountValid(Account account) {
-        return account != null && account.getAccountId() != null;
+    private String getPassword(Account account) {
+        return accountDataService.getPassword(account.getAccountId()).orElse(null);
     }
 
     private void setAccountResult(AccountResult accountResult, Boolean success, String description, String password) {

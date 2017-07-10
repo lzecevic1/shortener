@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class AccountDataServiceImpl implements AccountDataService {
 
@@ -29,14 +30,14 @@ public class AccountDataServiceImpl implements AccountDataService {
         allAccounts = new HashMap<>();
     }
 
-    public Boolean checkIfAccountExists(String accountID, String password){
-        if(accountID == null || password == null) return false;
-        FullAccount account = allAccounts.get(accountID);
-        return account != null && password.equals(account.getPassword());
+    public Boolean checkIfAccountExists(String accountID, String password) {
+        Optional<FullAccount> accountFromMap = Optional.ofNullable(allAccounts.get(accountID));
+        return accountFromMap.filter(fullAccount -> password.equals(fullAccount.getPassword())).isPresent();
     }
 
-    public String getPassword(String accountID) {
-        return allAccounts.get(accountID).getPassword();
+    public Optional<String> getPassword(String accountID) {
+        Optional<FullAccount> accountFromMap = Optional.ofNullable(allAccounts.get(accountID));
+        return accountFromMap.map(FullAccount::getPassword);
     }
 
     public Map<String, FullAccount> getAllAccounts() {
@@ -44,15 +45,13 @@ public class AccountDataServiceImpl implements AccountDataService {
     }
 
     public Boolean isRegisteredAccountID(Account account) {
-        return allAccounts.get(account.getAccountId()) != null;
+        Optional<FullAccount> accountFromMap = Optional.ofNullable(allAccounts.get(account.getAccountId()));
+        return accountFromMap.isPresent();
     }
 
     public void registerAccount(Account account) {
-        if(account != null) {
-            String accountId = account.getAccountId();
-            allAccounts.put(accountId, new FullAccount(accountId, randomStringGenerator.generateString()));
-//            statisticDataService.putNewAccount(accountId);
-        }
+        String accountId = account.getAccountId();
+        allAccounts.put(accountId, new FullAccount(accountId, randomStringGenerator.generateString()));
     }
 }
 

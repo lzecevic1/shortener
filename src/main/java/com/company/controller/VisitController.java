@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class VisitController {
@@ -33,13 +34,11 @@ public class VisitController {
             return;
         }
 
-        String username = credentialsChecker.getUsernameIfAccountExists(credentials);
-        RegisteredUrl urlToVisit = registerDataService.getLongURLFromShort(url);
-        if(username != null) {
-            statisticDataService.setStatistic(username, urlToVisit.getUrl());
-            response.setHeader("Location", urlToVisit.getUrl());
-            response.setStatus(urlToVisit.getRedirectType());
-        }
+        Optional<String> username = Optional.of(credentialsChecker.getUsernameIfAccountExists(credentials));
+        Optional<RegisteredUrl> urlToVisit = registerDataService.getLongURLFromShort(url);
+        
+        response.setHeader("Location", urlToVisit.map(RegisteredUrl::getUrl).toString());
+        response.setStatus(Integer.valueOf(urlToVisit.map(RegisteredUrl::getRedirectType).toString()));
     }
 
     private boolean invalidRequestParameters(String credentials, String url) {

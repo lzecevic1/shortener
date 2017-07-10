@@ -13,7 +13,9 @@ public class Account {
 
     String accountId;
 
-    Account() { }
+    Account() {
+
+    }
 
     public Account(String accountId) {
         this.accountId = accountId;

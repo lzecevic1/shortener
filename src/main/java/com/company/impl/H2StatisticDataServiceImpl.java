@@ -12,14 +12,14 @@ public class H2StatisticDataServiceImpl implements StatisticDataService {
     private StatisticRepository statisticRepository;
 
     public List<Statistic> getStatistics(String accountId) {
-        if(accountId == null) return null;
+        if (accountId == null) return null;
         return statisticRepository.findByAccountId(accountId);
     }
 
     public void setStatistic(String accountId, String url) {
-        if(accountId == null || url == null) return;
+        if (accountId == null || url == null) return;
         Statistic statistic = statisticRepository.findByAccountIdAndLongUrl(accountId, url);
-        if(statistic != null) statistic.setNumberOfVisits(statistic.getNumberOfVisits() + 1);
+        if (statistic != null) statistic.setNumberOfVisits(statistic.getNumberOfVisits() + 1);
         else statistic = new Statistic(accountId, url, 1);
 
         statisticRepository.save(statistic);

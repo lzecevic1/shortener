@@ -20,14 +20,28 @@ public class RegisterController {
     public String registerURL(@RequestHeader(value = "Authorization") String credentials, @RequestBody LongUrl longUrl){
 
         String message = checkRequestParams(credentials, longUrl);
-        if(message != null) return message;
+        if(message != null) {
+            return message;
+        }
+
+        try{
+            registerDataService.registerUrl(longUrl);
+        } catch (IllegalArgumentException  exception) {
+            System.out.println("Saving to database failed." + exception.getMessage());
+        }
         return URL + registerDataService.getShortURL(longUrl);
     }
 
     private String checkRequestParams(String credentials, LongUrl longUrl) {
-        if(isLongUrlInvalid(longUrl)) return "URL missing or incorrect!";
-        if(credentials == null) return "Authorization missing!";
-        if(!credentialsChecker.authenticate(credentials)) return "Incorrect username or password!";
+        if(isLongUrlInvalid(longUrl)) {
+            return "URL missing or incorrect!";
+        }
+        if(credentials == null) {
+            return "Authorization missing!";
+        }
+        if(!credentialsChecker.authenticate(credentials)) {
+            return "Incorrect username or password!";
+        }
         return null;
     }
 

@@ -7,29 +7,36 @@ import com.company.service.RegisterDataService;
 import com.company.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 public class H2RegisterDataServiceImpl implements RegisterDataService {
     @Autowired
     private UrlRepository urlRepository;
     @Autowired
     private RandomStringGenerator stringGenerator;
 
-    public RegisteredUrl getLongURLFromShort(String shortURL) {
+    public Optional<RegisteredUrl> getLongURLFromShort(String shortURL) {
         return urlRepository.findByShortURL(shortURL);
     }
 
-    public String getShortURL(LongUrl longUrl) {
+    public Optional<String> getShortURL(LongUrl longUrl) {
         String url = longUrl.getUrl();
-        RegisteredUrl registeredUrl = urlRepository.findByUrl(url);
-        if(registeredUrl == null){
-            return registerUrl(longUrl, url);
+        Optional<RegisteredUrl> registeredUrl = urlRepository.findByUrl(url);
+        if (registeredUrl.isPresent()) {
+            String shortUrl = registeredUrl.get().getShortURL();
+            return Optional.of(shortUrl);
         }
-        return registeredUrl.getShortURL();
+        return Optional.empty();
     }
 
-    private String registerUrl(LongUrl longUrl, String url) {
-        String shortUrl = stringGenerator.generateString();
-        if(longUrl.getRedirectType() == null) longUrl.setRedirectType(302);
-        urlRepository.save(new RegisteredUrl(url, longUrl.getRedirectType(), shortUrl));
-        return shortUrl;
+    public void registerUrl(LongUrl longUrl) {
+        String newPassword = stringGenerator.generateString();
+        urlRepository.save(generateNewUrl(longUrl, newPassword));
+    }
+
+    private RegisteredUrl generateNewUrl(LongUrl longUrl, String password) {
+        return new RegisteredUrl(longUrl.getUrl(),
+                longUrl.getRedirectType(),
+                password);
     }
 }
