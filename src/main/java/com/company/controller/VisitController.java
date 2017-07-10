@@ -36,7 +36,13 @@ public class VisitController {
 
         Optional<String> username = Optional.of(credentialsChecker.getUsernameIfAccountExists(credentials));
         Optional<RegisteredUrl> urlToVisit = registerDataService.getLongURLFromShort(url);
-        
+        if(urlToVisit.isPresent()){
+            statisticDataService.setStatistic(Optional.of(username).toString(), urlToVisit.get().getUrl());
+            redirect(response, urlToVisit);
+        }
+    }
+
+    private void redirect(HttpServletResponse response, Optional<RegisteredUrl> urlToVisit) {
         response.setHeader("Location", urlToVisit.map(RegisteredUrl::getUrl).toString());
         response.setStatus(Integer.valueOf(urlToVisit.map(RegisteredUrl::getRedirectType).toString()));
     }
