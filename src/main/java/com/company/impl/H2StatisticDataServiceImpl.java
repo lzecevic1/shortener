@@ -17,7 +17,7 @@ public class H2StatisticDataServiceImpl implements StatisticDataService {
     }
 
     public void setStatistic(String accountId, String url) {
-        if (accountId == null || url == null) return;
+//        if (accountId == null || url == null) return;
         Statistic statistic = statisticRepository.findByAccountIdAndLongUrl(accountId, url);
         if (statistic != null) statistic.setNumberOfVisits(statistic.getNumberOfVisits() + 1);
         else statistic = new Statistic(accountId, url, 1);

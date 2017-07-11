@@ -1,14 +1,10 @@
 package com.company.controller;
 
 import com.company.service.AccountDataService;
-import com.company.service.StatisticDataService;
 import com.company.model.Account;
 import com.company.model.AccountResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping(value = "/account")

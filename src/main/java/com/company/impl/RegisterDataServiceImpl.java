@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-public class RegisterDataServiceImpl {
+public class RegisterDataServiceImpl implements RegisterDataService {
     private Map<String, RegisteredUrl> registeredURLs;
 
     @Autowired
@@ -24,33 +25,30 @@ public class RegisterDataServiceImpl {
         registeredURLs = new HashMap<>();
     }
 
-    public String getShortURL(LongUrl longUrl) {
-        RegisteredUrl registeredUrl = getRegisteredURL(longUrl);
-        if (registeredUrl == null) return registerURL(longUrl);
-        return registeredUrl.getShortURL();
+    public Optional<RegisteredUrl> getLongURLFromShort(String shortURL) {
+        return Optional.ofNullable(registeredURLs.get(shortURL));
     }
 
-    public RegisteredUrl getLongURLFromShort(String shortURL) {
-        return registeredURLs.get(shortURL);
+    public Optional<String> getShortURL(LongUrl longUrl) {
+        Optional<RegisteredUrl> registeredUrl = getRegisteredURL(longUrl);
+        return registeredUrl.flatMap(registeredUrl1 -> Optional.of(registeredUrl1.getShortURL()));
     }
 
-    private String registerURL(LongUrl longUrl) {
+    public void registerUrl(LongUrl longUrl) {
+        if (longUrl.getRedirectType() == null) {
+            longUrl.setRedirectType(302);
+        }
         String newShortUrl = generateNewShortUrl();
-        if (longUrl.getRedirectType() == null) longUrl.setRedirectType(302);
         RegisteredUrl newURL = new RegisteredUrl(longUrl.getUrl(),
                 longUrl.getRedirectType(),
                 newShortUrl);
         registeredURLs.put(newShortUrl, newURL);
-        return newShortUrl;
     }
 
-    private RegisteredUrl getRegisteredURL(LongUrl urlToRegister) {
-        for (RegisteredUrl registeredUrl : registeredURLs.values()) {
-            if (urlToRegister.getUrl().equals(registeredUrl.getUrl())) {
-                return registeredUrl;
-            }
-        }
-        return null;
+    private Optional<RegisteredUrl> getRegisteredURL(LongUrl urlToRegister) {
+        return registeredURLs.values().stream()
+                .filter(registeredUrl -> urlToRegister.getUrl().equals(registeredUrl.getUrl()))
+                .findAny();
     }
 
     private String generateNewShortUrl() {

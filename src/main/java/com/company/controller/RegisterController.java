@@ -6,6 +6,8 @@ import com.company.util.CredentialsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
@@ -17,32 +19,30 @@ public class RegisterController {
     private CredentialsChecker credentialsChecker;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String registerURL(@RequestHeader(value = "Authorization") String credentials, @RequestBody LongUrl longUrl){
+    public String registerURL(@RequestHeader(value = "Authorization") String credentials, @RequestBody LongUrl longUrl) throws Exception {
 
-        String message = checkRequestParams(credentials, longUrl);
-        if(message != null) {
-            return message;
-        }
+        Optional<String> message = checkRequestParams(credentials, longUrl);
+        if (message.isPresent()) return message.get();
 
-        try{
+        try {
             registerDataService.registerUrl(longUrl);
-        } catch (IllegalArgumentException  exception) {
-            System.out.println("Saving to database failed." + exception.getMessage());
+        } catch (IllegalArgumentException exception) {
+            return "Saving to database failed. " + exception.getMessage();
         }
         return URL + registerDataService.getShortURL(longUrl);
     }
 
-    private String checkRequestParams(String credentials, LongUrl longUrl) {
-        if(isLongUrlInvalid(longUrl)) {
-            return "URL missing or incorrect!";
+    private Optional<String> checkRequestParams(String credentials, LongUrl longUrl) throws Exception {
+        if (isLongUrlInvalid(longUrl)) {
+            return Optional.of("URL missing or incorrect!");
         }
-        if(credentials == null) {
-            return "Authorization missing!";
+        if (credentials == null) {
+            return Optional.of("Authorization missing!");
         }
-        if(!credentialsChecker.authenticate(credentials)) {
-            return "Incorrect username or password!";
+        if (!credentialsChecker.authenticate(credentials)) {
+            return Optional.of("Incorrect username or password!");
         }
-        return null;
+        return Optional.empty();
     }
 
     private boolean isLongUrlInvalid(LongUrl longUrl) {

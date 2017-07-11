@@ -22,11 +22,8 @@ public class H2RegisterDataServiceImpl implements RegisterDataService {
     public Optional<String> getShortURL(LongUrl longUrl) {
         String url = longUrl.getUrl();
         Optional<RegisteredUrl> registeredUrl = urlRepository.findByUrl(url);
-        if (registeredUrl.isPresent()) {
-            String shortUrl = registeredUrl.get().getShortURL();
-            return Optional.of(shortUrl);
-        }
-        return Optional.empty();
+
+        return registeredUrl.flatMap(registeredUrl1 -> Optional.of(registeredUrl1.getShortURL()));
     }
 
     public void registerUrl(LongUrl longUrl) {

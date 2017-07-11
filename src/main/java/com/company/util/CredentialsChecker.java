@@ -5,29 +5,29 @@ import com.company.model.FullAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Base64;
+import java.util.Optional;
 
 public class CredentialsChecker {
     @Autowired
     private AccountDataService accountDataService;
 
-    public Boolean authenticate(String credentials) {
-        FullAccount accountToCheck = decode(credentials.substring(6, credentials.length()));
-        if(accountToCheck == null) return false;
-        return checkCredentials(accountToCheck);
+    public Boolean authenticate(String credentials) throws Exception {
+        Optional<FullAccount> accountToCheck = decode(credentials.substring(6, credentials.length()));
+        return accountToCheck.map(this::checkCredentials).orElse(false);
     }
 
-    public String getUsernameIfAccountExists(String credentials) {
-        FullAccount account = decode(credentials.substring(6, credentials.length()));
-        if(account == null || account.getAccountId() == null) return null;
-        if(checkCredentials(account)) return account.getAccountId();
-        return null;
+    public Optional<String> getUsernameIfAccountExists(String credentials) throws Exception {
+        Optional<FullAccount> accountToCheck = decode(credentials.substring(6, credentials.length()));
+        return accountToCheck.flatMap(fullAccount -> Optional.ofNullable(fullAccount.getAccountId()));
     }
 
-    private FullAccount decode(String credentials) {
+    private Optional<FullAccount> decode(String credentials) throws Exception {
         String decodedCredentials = new String(Base64.getDecoder().decode(credentials));
         String[] credentialArray = parseString(decodedCredentials);
-        if(credentialArray.length == 2) return new FullAccount (credentialArray[0], credentialArray[1]);
-        return null;
+        if(credentialArray.length == 2) {
+            return Optional.of(new FullAccount(credentialArray[0], credentialArray[1]));
+        }
+        return Optional.empty();
     }
 
     private Boolean checkCredentials(FullAccount account) {
