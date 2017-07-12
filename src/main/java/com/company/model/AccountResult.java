@@ -1,8 +1,5 @@
-package com.company.Model;
+package com.company.model;
 
-/**
- * Created by lzecevic on 6/21/17.
- */
 public class AccountResult {
     private Boolean success;
     private String description;

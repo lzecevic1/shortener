@@ -1,22 +1,33 @@
-package com.company.Model;
+package com.company.model;
 
-/**
- * Created by lzecevic on 6/22/17.
- */
+import javax.persistence.*;
 
-public class RegisteredURL {
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
+@Entity
+@Inheritance(strategy = SINGLE_TABLE)
+public class LongUrl {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String url;
     private Integer redirectType;
-    private String shortURL;
-    // private String message;
 
-    public RegisteredURL() {
+    LongUrl() {
+
     }
 
-    public RegisteredURL(String url, Integer redirectType, String shortURL) {
+    public LongUrl(String url, Integer redirectType) {
         this.url = url;
         this.redirectType = redirectType;
-        this.shortURL = shortURL;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUrl() {
@@ -35,23 +46,15 @@ public class RegisteredURL {
         this.redirectType = redirectType;
     }
 
-    public String getShortURL() {
-        return shortURL;
-    }
-
-    public void setShortURL(String shortURL) {
-        this.shortURL = shortURL;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        RegisteredURL that = (RegisteredURL) o;
+        LongUrl longUrl = (LongUrl) o;
 
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
-        return redirectType != null ? redirectType.equals(that.redirectType) : that.redirectType == null;
+        if (url != null ? !url.equals(longUrl.url) : longUrl.url != null) return false;
+        return redirectType != null ? redirectType.equals(longUrl.redirectType) : longUrl.redirectType == null;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class RegisteredURL {
 
     @Override
     public String toString() {
-        return "RegisteredURL{" +
+        return "LongUrl{" +
                 "url='" + url + '\'' +
                 ", redirectType=" + redirectType +
                 '}';
