@@ -3,12 +3,9 @@ package com.company.impl;
 import com.company.model.Statistic;
 import com.company.service.StatisticDataService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class StatisticDataServiceImpl implements StatisticDataService{
+public class StatisticDataServiceImpl implements StatisticDataService {
     private Map<String, List<Statistic>> statistics;
 
     public StatisticDataServiceImpl() {
@@ -16,12 +13,19 @@ public class StatisticDataServiceImpl implements StatisticDataService{
     }
 
     public List<Statistic> getStatistics(String accountId) {
-        return statistics.get(accountId);
+        List<Statistic> statisticList = statistics.get(accountId);
+        if (statisticList == null) {
+            return Collections.emptyList();
+        }
+        return statisticList;
     }
 
     public void setStatistic(String accountId, String url) {
-        if(!statistics.containsKey(accountId)) setStatisticForNewUser(accountId, url);
-         else setStatisticForExistingUser(accountId, url);
+        if (!statistics.containsKey(accountId)) {
+            setStatisticForNewUser(accountId, url);
+        } else {
+            setStatisticForExistingUser(accountId, url);
+        }
     }
 
     private void setStatisticForNewUser(String accountId, String url) {
@@ -31,21 +35,20 @@ public class StatisticDataServiceImpl implements StatisticDataService{
 
     private void setStatisticForExistingUser(String accountId, String url) {
         List<Statistic> userStatistic = statistics.get(accountId);
-        Statistic statisticForEdit = getStatisticForEdit(userStatistic, url);
-        if(statisticForEdit == null) userStatistic.add(new Statistic(accountId, url, 1));
-        else {
-            statisticForEdit.setNumberOfVisits(statisticForEdit.getNumberOfVisits() + 1);
-            userStatistic.add(statisticForEdit);
+        Optional<Statistic> statisticForEdit = getStatisticForEdit(userStatistic, url);
+
+        if (!statisticForEdit.isPresent()) {
+            userStatistic.add(new Statistic(accountId, url, 1));
+        } else {
+            Statistic newStatistic = statisticForEdit.get();
+            newStatistic.setNumberOfVisits(newStatistic.getNumberOfVisits() + 1);
+            userStatistic.add(newStatistic);
         }
     }
 
-    private Statistic getStatisticForEdit(List<Statistic> userStatistic, String url) {
-        for (Statistic s : userStatistic) {
-            if(url.equals(s.getLongUrl())){
-                return s;
-            }
-        }
-        return null;
+    private Optional<Statistic> getStatisticForEdit(List<Statistic> userStatistic, String url) {
+        return userStatistic.stream()
+                .filter(s -> url.equals(s.getLongUrl()))
+                .findFirst();
     }
-
 }

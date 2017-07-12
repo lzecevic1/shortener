@@ -5,13 +5,12 @@ import javax.persistence.*;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Inheritance(strategy=SINGLE_TABLE)
+@Inheritance(strategy = SINGLE_TABLE)
 public class Account {
+    String accountId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    String accountId;
 
     Account() {
 

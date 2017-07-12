@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface UrlRepository extends CrudRepository<RegisteredUrl, Long> {
     Optional<RegisteredUrl> findByShortURL(String shortUrl);
+
     Optional<RegisteredUrl> findByUrl(String url);
 }

@@ -5,23 +5,27 @@ import com.company.repository.StatisticRepository;
 import com.company.service.StatisticDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class H2StatisticDataServiceImpl implements StatisticDataService {
     @Autowired
     private StatisticRepository statisticRepository;
 
     public List<Statistic> getStatistics(String accountId) {
-        if (accountId == null) return null;
-        return statisticRepository.findByAccountId(accountId);
+        return statisticRepository.findByAccountId(accountId).orElse(Collections.emptyList());
     }
 
     public void setStatistic(String accountId, String url) {
-//        if (accountId == null || url == null) return;
-        Statistic statistic = statisticRepository.findByAccountIdAndLongUrl(accountId, url);
-        if (statistic != null) statistic.setNumberOfVisits(statistic.getNumberOfVisits() + 1);
-        else statistic = new Statistic(accountId, url, 1);
+        Optional<Statistic> statistic = statisticRepository.findByAccountIdAndLongUrl(accountId, url);
 
-        statisticRepository.save(statistic);
+        if (statistic.isPresent()) {
+            Statistic statisticForEdit = statistic.get();
+            statisticForEdit.setNumberOfVisits(statisticForEdit.getNumberOfVisits() + 1);
+            statisticRepository.save(statisticForEdit);
+        } else {
+            statisticRepository.save(new Statistic(accountId, url, 1));
+        }
     }
 }

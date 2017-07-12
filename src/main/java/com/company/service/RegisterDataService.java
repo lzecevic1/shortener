@@ -9,6 +9,8 @@ import java.util.Optional;
 @Service
 public interface RegisterDataService {
     Optional<RegisteredUrl> getLongURLFromShort(String shortURL);
+
     Optional<String> getShortURL(LongUrl longUrl);
+
     void registerUrl(LongUrl longUrl);
 }

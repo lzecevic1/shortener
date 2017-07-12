@@ -35,20 +35,20 @@ public class VisitController {
 
         Optional<String> username = credentialsChecker.getUsernameIfAccountExists(credentials);
         Optional<RegisteredUrl> urlToVisit = registerDataService.getLongURLFromShort(url);
-        if (urlToVisit.isPresent()) {
-            String urlForRedirect = urlToVisit.get().getUrl();
-            setStatistic(username, urlForRedirect);
-            redirect(response, urlToVisit);
-        }
+        RegisteredUrl urlForRedirect = urlToVisit.orElseThrow(Exception::new);
+        String usernameForRedirect = username.orElseThrow(Exception::new);
+
+        setStatistic(usernameForRedirect, urlForRedirect.getUrl());
+        redirect(response, urlForRedirect);
     }
 
-    private void setStatistic(Optional<String> username, String urlForRedirect) throws Exception {
-        statisticDataService.setStatistic(username.orElseThrow(Exception::new), urlForRedirect);
+    private void setStatistic(String username, String urlForRedirect) throws Exception {
+        statisticDataService.setStatistic(username, urlForRedirect);
     }
 
-    private void redirect(HttpServletResponse response, Optional<RegisteredUrl> urlToVisit) {
-        response.setHeader("Location", urlToVisit.map(RegisteredUrl::getUrl).toString());
-        response.setStatus(Integer.valueOf(urlToVisit.map(RegisteredUrl::getRedirectType).toString()));
+    private void redirect(HttpServletResponse response, RegisteredUrl urlToVisit) {
+        response.setHeader("Location", urlToVisit.getUrl());
+        response.setStatus(urlToVisit.getRedirectType());
     }
 
     private boolean invalidRequestParameters(String credentials, String url) {

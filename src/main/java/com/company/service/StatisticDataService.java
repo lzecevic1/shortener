@@ -8,5 +8,6 @@ import java.util.List;
 @Service
 public interface StatisticDataService {
     List<Statistic> getStatistics(String accountId);
+
     void setStatistic(String accountId, String url);
 }

@@ -24,7 +24,7 @@ public class CredentialsChecker {
     private Optional<FullAccount> decode(String credentials) throws Exception {
         String decodedCredentials = new String(Base64.getDecoder().decode(credentials));
         String[] credentialArray = parseString(decodedCredentials);
-        if(credentialArray.length == 2) {
+        if (credentialArray.length == 2) {
             return Optional.of(new FullAccount(credentialArray[0], credentialArray[1]));
         }
         return Optional.empty();

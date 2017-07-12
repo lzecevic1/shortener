@@ -10,8 +10,12 @@ import java.util.Optional;
 @Service
 public interface AccountDataService {
     void registerAccount(Account account) throws Exception;
+
     Boolean checkIfAccountExists(String accountID, String password);
+
     Boolean isRegisteredAccountID(Account account);
+
     Optional<String> getPassword(String accountID);
+
     Map<String, FullAccount> getAllAccounts();
 }

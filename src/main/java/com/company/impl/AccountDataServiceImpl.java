@@ -1,6 +1,5 @@
 package com.company.impl;
 
-import com.company.service.StatisticDataService;
 import com.company.model.FullAccount;
 import com.company.util.RandomStringGenerator;
 import com.company.service.AccountDataService;
@@ -15,8 +14,6 @@ public class AccountDataServiceImpl implements AccountDataService {
 
     @Autowired
     private RandomStringGenerator randomStringGenerator;
-    @Autowired
-    private StatisticDataService statisticDataService;
 
     private Map<String, FullAccount> allAccounts;
 
@@ -24,9 +21,8 @@ public class AccountDataServiceImpl implements AccountDataService {
         allAccounts = new HashMap<>();
     }
 
-    public AccountDataServiceImpl(RandomStringGenerator randomStringGenerator, StatisticDataService statisticDataService) {
+    public AccountDataServiceImpl(RandomStringGenerator randomStringGenerator) {
         this.randomStringGenerator = randomStringGenerator;
-        this.statisticDataService = statisticDataService;
         allAccounts = new HashMap<>();
     }
 

@@ -38,29 +38,27 @@ public class ShortenerApplicationTests {
     public void setUp() throws Exception {
         randomStringGenerator = new RandomStringGenerator();
         statisticDataService = new StatisticDataServiceImpl();
-        accountDataService = new AccountDataServiceImpl(randomStringGenerator, statisticDataService);
+        accountDataService = new AccountDataServiceImpl(randomStringGenerator);
         registerDataService = new RegisterDataServiceImpl(randomStringGenerator);
     }
 
     @Test
-    public void testAccountDataService_registerAccount() throws Exception {
+    public void testAccountDataService_RegisterAccount_NumberOfAccountsIs1() throws Exception {
         Account account = new Account("Lejla");
         accountDataService.registerAccount(account);
         Assert.assertEquals(accountDataService.getAllAccounts().size(), 1);
-        Assert.assertTrue(accountDataService.isRegisteredAccountID(account));
     }
 
     @Test
-    public void testRegisterDataService_registerLongUrlAndCheckIfItWasSuccessful(){
+    public void testRegisterDataService_RegisterUrl_UrlIsPresent(){
         LongUrl longUrl = new LongUrl("https://www.martinfowler.com/articles/mocksArentStubs.html", 301);
         registerDataService.registerUrl(longUrl);
         Optional<String> shortURL = registerDataService.getShortURL(longUrl);
         Assert.assertTrue(shortURL.isPresent());
-//        Assert.assertEquals(longUrl.getUrl(), registerDataService.getLongURLFromShort(shortURL.get()).get().getUrl());
     }
 
     @Test
-    public void testStatisticDataService_setStatistic(){
+    public void testStatisticDataService_SetStatistic_NumberOfVisitsIs1(){
         statisticDataService.setStatistic("Lejla", "https://www.martinfowler.com/articles/mocksArentStubs.html");
         Assert.assertEquals(statisticDataService.getStatistics("Lejla").size(), 1);
     }

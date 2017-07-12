@@ -5,7 +5,7 @@ import javax.persistence.*;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Inheritance(strategy=SINGLE_TABLE)
+@Inheritance(strategy = SINGLE_TABLE)
 public class LongUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,6 +14,7 @@ public class LongUrl {
     private Integer redirectType;
 
     LongUrl() {
+
     }
 
     public LongUrl(String url, Integer redirectType) {

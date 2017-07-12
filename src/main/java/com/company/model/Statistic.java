@@ -16,6 +16,7 @@ public class Statistic {
     private Integer numberOfVisits;
 
     public Statistic() {
+
     }
 
     public Statistic(String accountId, String longUrl, Integer numberOfVisits) {
